@@ -7,7 +7,12 @@ internal static class Lab02Demo
 {
     public static void Run()
     {
-        var customer = new Customer("Anna Kovalenko", "anna@example.com");
+        var customer = new Customer
+        {
+            Name = "Anna Kovalenko",
+            Email = "anna@example.com",
+            Address = new Address("Poltava", "Soborna", "10", "36000")
+        };
         var laptop = new Product("Laptop", 28500m);
         var mouse = new Product("Mouse", 650m);
         var cable = new Product("USB cable", 180m);
