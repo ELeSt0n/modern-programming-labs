@@ -7,4 +7,4 @@ Console.WriteLine("Student: Охріменко Р.В.");
 Console.WriteLine("Group: 301-пТК");
 Console.WriteLine("Variant: 1");
 Console.WriteLine("Domain: Online Store");
-Console.WriteLine("Run on .NET: " + Environment.Version.Major);
+Console.WriteLine(".NET: " + Environment.Version.Major);
