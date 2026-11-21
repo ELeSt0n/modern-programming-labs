@@ -47,7 +47,7 @@ public sealed class Order
     {
         ArgumentNullException.ThrowIfNull(paymentMethod);
 
-        if (Status == OrderStatus.Paid)
+        if (Status is OrderStatus.Paid or OrderStatus.Shipped or OrderStatus.Delivered)
             throw new InvalidOperationException("Order is already paid.");
         if (Status == OrderStatus.Cancelled)
             throw new InvalidOperationException("Cancelled order cannot be paid.");
@@ -63,11 +63,47 @@ public sealed class Order
     {
         if (Status == OrderStatus.Cancelled)
             throw new InvalidOperationException("Order is already cancelled.");
-        if (Status == OrderStatus.Paid)
+        if (Status != OrderStatus.Created)
             throw new InvalidOperationException("Paid order cannot be cancelled.");
 
         Status = OrderStatus.Cancelled;
     }
+
+    public void Ship()
+    {
+        if (Status != OrderStatus.Paid)
+            throw new InvalidOperationException("Only a paid order can be shipped.");
+
+        Status = OrderStatus.Shipped;
+    }
+
+    public void Deliver()
+    {
+        if (Status != OrderStatus.Shipped)
+            throw new InvalidOperationException("Only a shipped order can be delivered.");
+
+        Status = OrderStatus.Delivered;
+    }
+
+    public string GetStatusDescription() => Status switch
+    {
+        OrderStatus.Created => "Order is created and waits for payment",
+        OrderStatus.Paid => "Order is paid and being prepared",
+        OrderStatus.Shipped => "Order is on the way",
+        OrderStatus.Delivered => "Order is delivered",
+        OrderStatus.Cancelled => "Order is cancelled",
+        _ => "Unknown status"
+    };
+
+    public OrderCategory GetOrderCategory() => Total switch
+    {
+        < 500m => OrderCategory.Small,
+        < 5000m => OrderCategory.Medium,
+        _ => OrderCategory.Large
+    };
+
+    /// <summary>Property pattern: оплачене замовлення від 2000 грн доставляється безкоштовно.</summary>
+    public bool HasFreeDelivery() => this is { Status: OrderStatus.Paid, Total: >= 2000m };
 
     private void EnsureCreated()
     {
