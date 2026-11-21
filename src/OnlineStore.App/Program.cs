@@ -1,10 +1,12 @@
 using System.Text;
+using OnlineStore.App.Demos;
 
 Console.OutputEncoding = Encoding.UTF8;
 
-Console.WriteLine("Modern Programming Course");
-Console.WriteLine("Student: Охріменко Р.В.");
-Console.WriteLine("Group: 301-пТК");
-Console.WriteLine("Variant: 1");
-Console.WriteLine("Domain: Online Store");
-Console.WriteLine(".NET: " + Environment.Version.Major);
+// Запуск: dotnet run --project src/OnlineStore.App -- <номер лабораторної>
+switch (args.FirstOrDefault() ?? "1")
+{
+    case "1": CourseInfo.Print(); break;
+    case "2": Lab02Demo.Run(); break;
+    default: Console.WriteLine("Unknown lab number."); break;
+}
