@@ -12,5 +12,6 @@ switch (args.FirstOrDefault() ?? "1")
     case "2": Lab02Demo.Run(); break;
     case "3": Lab03Demo.Run(); break;
     case "4": Lab04Demo.Run(); break;
+    case "5": Lab05Demo.Run(); break;
     default: Console.WriteLine("Unknown lab number."); break;
 }
